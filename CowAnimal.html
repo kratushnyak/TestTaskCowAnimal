@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript">
+	
+        function inherit(child,parent)
+        {
+            var F = function () { };
+            F.prototype = parent.prototype;
+            var f = new F();
+            
+            for (var prop in child.prototype) 
+			f[prop] = child.prototype[prop];
+            child.prototype = f;
+            child.prototype.super = parent.prototype;
+        }
+
+        function Animal(name){this.name = name;}
+        Animal.prototype = {
+            getName: function(){return this.name;}
+        }
+
+        function Cow(name) {
+            Animal.call(this, name);
+        }
+        Cow.prototype = {
+            moo: function(name) {return console.log('Cow ' + this.name + ' says moo');}
+        };
+
+        inherit(Cow, Animal);
+
+        var cow = new Cow('Milka'); 
+        var nameCow = cow.getName();
+
+        function Equil(cow) {
+            if (cow.getName() === 'Milka') {
+                console.log('true');
+            }
+            if (cow.moo() === 'Cow Milka says moo') {
+                console.log('true');
+            }
+        };
+        Equil(cow);
+    </script>
+</head>
+<body>
+</body>
+</html>
